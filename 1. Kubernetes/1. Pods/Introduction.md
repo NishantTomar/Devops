@@ -56,3 +56,7 @@ spec:
     OR
    
    `kubectl delete <pod_name>`  
+
+9. How to edit the pod.  
+   `kubectl edit pod <pod_name>`  
+   
