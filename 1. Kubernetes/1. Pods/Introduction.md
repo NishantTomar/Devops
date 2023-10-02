@@ -39,24 +39,20 @@ spec:
    
    `kubectl describe pod <pod_name>`
    
-   `kubectl describe pod myapp_pod`
+   `kubectl describe pod myapp_pod`  
+
 5. how to acces the logs of the running pod on the cluster?
    
-   `kubectl logs <pod_name>`
+   `kubectl logs <pod_name>`  
+
 7. how to get more information about the pods on the cluster?
 
    `kubectl get pods -o wide -n namespace`
 
 8. how to delete a pod?
    
-
    `kubectl delete -f nginx-pod-definition.yaml`
    
     OR
    
-   `kubectl delete <pod_name>`
-
-    
-       
-
-
+   `kubectl delete <pod_name>`  
