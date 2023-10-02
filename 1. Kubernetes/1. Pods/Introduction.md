@@ -13,8 +13,9 @@ If there is a need of scaling up of our application we create new pods, and to s
 2. How to see the running pods?
     kubectl get pods
 
-pod-defination.yml
-------------------
+[nginx-pod-definition.yaml](../nginx-pod-definition.yaml)
+
+```
 apiVersion: v1
 kind: Pod
 metadata:
@@ -26,7 +27,7 @@ spec:
   containers:
     - name: nginx-container
       image: nginx
-  
+```  
 3. Create a pod from .yml file
     kubectl create -f pod-defination.yml
 4. To see details about pod
