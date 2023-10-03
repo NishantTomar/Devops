@@ -47,12 +47,12 @@ spec:
 
    - Use the scale command to update the replicas but this will not update the replicas value in the replicaset-defination.yaml file.  
 
-    `kubectl scale --replicas=6 -f replicaset-definition.yaml`  
+        `kubectl scale --replicas=6 -f replicaset-definition.yaml`  
     
-    or  
+        or  
 
-    `kubectl scale --replicas=6 replicaset myapp-rs`
-                                  type      Name(of replicaset)  
+        `kubectl scale --replicas=6 replicaset myapp-rs`
+                                      type      Name(of replicaset)  
 
 4. How to delete replicaset?  
 
