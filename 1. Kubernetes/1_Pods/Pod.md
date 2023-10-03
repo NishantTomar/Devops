@@ -35,7 +35,7 @@ spec:
    
    `kubectl create -f nginx-pod-definition.yaml`
    
-5. To see the information about pod.
+4. To see the information about pod.
    
    `kubectl describe pod <pod_name>`
    
@@ -45,11 +45,11 @@ spec:
    
    `kubectl logs <pod_name>`  
 
-7. how to get more information about the pods on the cluster?
+6. how to get more information about the pods on the cluster?
 
    `kubectl get pods -o wide -n namespace`
 
-8. how to delete a pod?
+7. how to delete a pod?
    
    `kubectl delete -f nginx-pod-definition.yaml`
    
@@ -57,10 +57,10 @@ spec:
    
    `kubectl delete <pod_name>`  
 
-9. How to edit the pod.  
+8. How to edit the pod.  
  
    `kubectl edit pod <pod_name>`  
 
-10. Generate POD Manifest YAML file (-o yaml). Don't create it(--dry-run).  
+9. Generate POD Manifest YAML file (-o yaml). Don't create it(--dry-run).  
 
     `kubectl run nginx --image=nginx --dry-run=client -o yaml`
