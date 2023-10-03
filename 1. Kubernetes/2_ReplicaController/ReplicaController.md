@@ -2,6 +2,8 @@
 
 Replication controller is used to create the replicas of the defined pod in the spec section. And to make sure that desired number of replicas of the pod is running everytime.
 
+> This is not used now instead of this **ReplicaSet** is used.
+
 ### [replication-controller-definition.yaml](replication-controller-definition.yaml)
 ```
 apiVersion: v1
