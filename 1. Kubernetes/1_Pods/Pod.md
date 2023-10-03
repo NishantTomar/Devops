@@ -60,4 +60,7 @@ spec:
 9. How to edit the pod.  
  
    `kubectl edit pod <pod_name>`  
-   
+
+10. Generate POD Manifest YAML file (-o yaml). Don't create it(--dry-run).  
+
+    `kubectl run nginx --image=nginx --dry-run=client -o yaml`
