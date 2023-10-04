@@ -60,6 +60,10 @@ spec:
 
     `kubectl get service`  
 
+3. How to get the information of the service.  
+
+    `kubectl describe service`
+
 
 ## ClusterIp
 
