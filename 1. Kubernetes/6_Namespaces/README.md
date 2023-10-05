@@ -61,7 +61,7 @@ And below resources in the **DEV** Namespace.
     spec:
     containers:
         - name: nginx-container
-        image: nginx
+          image: nginx
     ```
 
 6. Create namespace.  
