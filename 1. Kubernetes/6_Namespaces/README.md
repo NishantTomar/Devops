@@ -22,6 +22,7 @@ And below resources in the **DEV** Namespace.
 - web-deployment
 
 1. So if web-pod needs to connnect to db-service within same namespace it uses.  
+
     `mysql.connect("db-service")`
 
 2. If web-pod (DEFAULT Namespace) needs to connnect to db-service that is in DEV namespace it uses.  
