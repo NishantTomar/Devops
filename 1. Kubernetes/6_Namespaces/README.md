@@ -48,21 +48,21 @@ And below resources in the **DEV** Namespace.
     
     `kubectl create -f pod-definition.yaml` 
 
-#### [pod-definition.yaml](pod-definition.yaml)  
+    #### [pod-definition.yaml](pod-definition.yaml)  
 
-```
-apiVersion: v1
-kind: Pod
-metadata:
-  name: myapp-pod
-  namespace: dev
-  labels:
-    type: front-end
-spec:
-  containers:
-    - name: nginx-container
-      image: nginx
-```
+    ```
+    apiVersion: v1
+    kind: Pod
+    metadata:
+    name: myapp-pod
+    namespace: dev
+    labels:
+        type: front-end
+    spec:
+    containers:
+        - name: nginx-container
+        image: nginx
+    ```
 
 6. Create namespace.  
 
