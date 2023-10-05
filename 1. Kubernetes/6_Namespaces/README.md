@@ -28,7 +28,7 @@ And below resources in the **DEV** Namespace.
 
     `mysql.connect("db-service.dev.svc.cluster.local")`  
 
-    <service-name>.<Namespace>.<service>.<domain> ----> "cluster.local" is the domain here.
+    `               <service-name>.<Namespace>.<service>.<domain> ----> "cluster.local" is the domain here.`
 
 3. Get the pods of default namespace.  
 
