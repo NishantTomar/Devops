@@ -1,13 +1,15 @@
 # Imperative Commands  
 
-Create objects:
+Create objects: 
+
 `kubectl run nginx --image=nginx`  
 
 `kubectl create deployment --image=nginx nginx`  
 
 `kubectl expose deployment nginx --port=80`
 
-Update objects: 
+Update objects:  
+
 `kubectl scale deployment nginx --replicas=4`  
 
 `kubectl edit deployment nginx`  
