@@ -32,7 +32,7 @@ spec:
 
 If the pod is already created and you want to assign the pod to a node, you can create a binding object and send a POST request to the pod's binding API with the data set to the binding object in a JSON format.
 
-### Pod-bind-definition.yaml
+#### [pod-bind-definition.yaml](pod-bind-definition.yaml)
 
 ```
 apiVersion: v1
@@ -43,7 +43,6 @@ target:
   apiVersion: v1
   kind: Node
   name: Node2
-
 ```
 Convert the above to json and pass it in curl command as shown below.
 
