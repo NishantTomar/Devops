@@ -48,3 +48,48 @@ Convert the above to json and pass it in curl command as shown below.
 
 `curl --header "Content-Type:application/json" --request POST --data '{ "apiVersion": "v1","kind": "Binding" ...]}} http://#SERVER/api/v1/namespace/default/pods/$PODNAME/binding`
 
+## Labels And Selectors
+
+- Labels and selectors are a standard method to group and filter items based on different criteria. Labels are properties attached to each item, and selectors help filter these items based on the specified criteria.  
+
+- In Kubernetes, labels and selectors are used to group and select different objects, such as pods, services, replica sets, and deployments.  
+
+- To specify labels in Kubernetes, you can add a "labels" section under the metadata of a pod definition file and define the labels in a key-value format.  
+
+- To select a pod with specific labels, use the "kubectl get pods" command with the selector option and specify the condition, such as "app=front-end".  
+
+  `kubectl get pods --selector app=front-end`
+
+- Kubernetes objects use labels and selectors internally to connect different objects together. For example, a replica set can be created by labeling pod definitions and using a selector in the replica set to group the pods.
+
+## Annotations  
+
+- Annotations in Kubernetes are used to record additional details for informational purposes, such as tool details or contact information.  
+
+#### Example of Labels and Selectors and Annotations
+```
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myapp-rs
+  labels:
+    env: dev
+    appname: myapp
+    annotations:  
+      buildversion: 1.2.0
+spec:
+  template:
+    metadata:
+      name: myapp-pod
+      labels:
+        env: dev
+        appname: myapp
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx
+  replicas: 3
+  selector:
+    matchLabels:
+      env: dev
+```
