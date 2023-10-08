@@ -70,7 +70,7 @@ Convert the above to json and pass it in curl command as shown below.
 
     `kubectl get all --selector env=dev`  
 
-  `kubectl get all --selector env=dev,app=payment,tier=backend`
+    `kubectl get all --selector env=dev,app=payment,tier=backend`
 
 ## Annotations  
 
