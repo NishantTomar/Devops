@@ -56,11 +56,21 @@ Convert the above to json and pass it in curl command as shown below.
 
 - To specify labels in Kubernetes, you can add a "labels" section under the metadata of a pod definition file and define the labels in a key-value format.  
 
-- To select a pod with specific labels, use the "kubectl get pods" command with the selector option and specify the condition, such as "app=front-end".  
-
-  `kubectl get pods --selector app=front-end`
-
 - Kubernetes objects use labels and selectors internally to connect different objects together. For example, a replica set can be created by labeling pod definitions and using a selector in the replica set to group the pods.
+
+1. How to select a pod with specific labels.  
+
+  `kubectl get pods --selector app=front-end`  
+
+2. How to select a pod with multiple labels.
+
+  `kubectl get pods --selector env=dev,app=payment,tier=backend`  
+
+3. How to get all the objects with specific or multiple labels.
+
+  `kubectl get all --selector env=dev`  
+
+  `kubectl get all --selector env=dev,app=payment,tier=backend`
 
 ## Annotations  
 
