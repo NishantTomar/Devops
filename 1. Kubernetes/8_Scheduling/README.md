@@ -60,15 +60,15 @@ Convert the above to json and pass it in curl command as shown below.
 
 1. How to select a pod with specific labels.  
 
-  `kubectl get pods --selector app=front-end`  
+    `kubectl get pods --selector app=front-end`  
 
 2. How to select a pod with multiple labels.
 
-  `kubectl get pods --selector env=dev,app=payment,tier=backend`  
+    `kubectl get pods --selector env=dev,app=payment,tier=backend`  
 
 3. How to get all the objects with specific or multiple labels.
 
-  `kubectl get all --selector env=dev`  
+    `kubectl get all --selector env=dev`  
 
   `kubectl get all --selector env=dev,app=payment,tier=backend`
 
