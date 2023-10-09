@@ -154,7 +154,11 @@ spec:
 ### Taints and tolerations configuration:
 - Use the kubectl taint nodes command to taint a node.  
   
-  `kubectl taint nodes node-name key=value:taint-effect`
+  `kubectl taint nodes node-name key=value:taint-effect` 
+
+- How to remove the taints.  
+
+  `kubectl taint nodes node-name key=value:taint-effect-`
 
 - Tolerations are added to pods in the pod definition file as shown in above file.  
 
