@@ -110,7 +110,8 @@ spec:
 
 - Initially, the scheduler places the pods across all nodes to balance them out equally.  
 
-- We want to dedicate node one to a specific application, so we add a taint (frontend) to the node.
+- We want to dedicate node one to a specific application, so we add a taint (frontend) to the node.  
+
     `kubectl taint nodes node-name key=value:taint-effect`  
 
     `kubectl taint nodes node1 app=frontend:noschedule`  
@@ -151,16 +152,19 @@ spec:
 3. No execute: New pods will not be scheduled on the node, and existing pods on the node may be evicted if they do not tolerate the taint.
 
 ### Taints and tolerations configuration:
-- Use the kubectl taint nodes command to taint a node.
+- Use the kubectl taint nodes command to taint a node.  
+  
+  `kubectl taint nodes node-name key=value:taint-effect`
 
-- Tolerations are added to pods in the pod definition file.
+- Tolerations are added to pods in the pod definition file as shown in above file.  
 
-> taints and tolerations does not tell the pod to go to a particular node. Instead, it tells the node to only accept pods with certain tolerations. If your requirement is to restrict a pod to certain nodes, it is achieved through another concept called as node affinity.
+> Taints and Tolerations does not tell the pod to go to a particular node. Instead, it tells the node to only accept pods with certain tolerations. If your requirement is to restrict a pod to certain nodes, it is achieved through another concept called as node affinity.
 
 ### Master nodes:
 - Master nodes in the cluster have a taint that prevents any pods from being scheduled on them by default.
 
-- To see master node taint run the below command.
+- To see master node taint run the below command.  
+
   `kubectl get node kubemaster| grep Taint`  
 
   `>> Taints:  node-role.kubernetes.io/master:NoSchedule`
