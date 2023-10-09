@@ -133,10 +133,10 @@ spec:
     - name: nginx-container
       image: nginx
   tollerations:
-    key: "app"
-    operator: "Equal"
-    value: "frontend"
-    effect: "NoSchedule"
+    - key: "app"  #we can either use "" or without that also it will work.
+      operator: "Equal"
+      value: "frontend"
+      effect: "NoSchedule"
 ```
 
 
