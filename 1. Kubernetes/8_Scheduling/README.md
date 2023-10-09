@@ -171,4 +171,35 @@ spec:
 
   `kubectl get node kubemaster| grep Taint`  
 
-  `>> Taints:  node-role.kubernetes.io/master:NoSchedule`
+  `>> Taints:  node-role.kubernetes.io/master:NoSchedule`  
+
+## Node Selectors  
+ 
+In the three-node cluster, you have two smaller nodes with lower hardware resources and one larger node with higher resources. You have different types of workloads running in the cluster, and you want to dedicate the data processing workloads that require higher resources to the larger node. However, in the current setup, any pods can go to any nodes, which is not desired. To solve this, you can set a limitation on the pods so that they only run on specific nodes.  
+
+There are two ways to do this:  
+
+1. **Node Selectors**: This is the simpler and easier method. You can use labels and selectors to specify which nodes the pods should run on. First, label your nodes with key-value pairs. For example, you can label the larger node as "size=large". Then, in the pod definition file, add a new property called "nodeSelector" to the "spec" section and specify the size as "large". This way, the scheduler will match the labels and place the pods on the appropriate nodes.  
+
+`kubectl label nodes node-name label-key=label-value`  
+
+`kubectl label nodes node01 size=large`
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp_pod 
+  labels: 
+    name: app 
+    env: stage
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx
+  nodeSelector:
+    size: large
+```
+
+
+2. **Node Affinity and Anti-Affinity**: Node selectors have limitations when the requirements are more complex. In such cases, you can use node affinity and anti-affinity features. These allow you to specify more advanced rules for pod placement, such as placing the pod on a large or medium node or placing the pod on any node that is not small.
