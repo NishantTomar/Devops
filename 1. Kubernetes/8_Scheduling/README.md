@@ -103,3 +103,64 @@ spec:
     matchLabels:
       env: dev
 ```
+
+## Taint and Tolerations
+
+- We have a cluster with three worker nodes (one, two, and three) and four pods (A, B, C, and D).  
+
+- Initially, the scheduler places the pods across all nodes to balance them out equally.  
+
+- We want to dedicate node one to a specific application, so we add a taint (frontend) to the node.
+    `kubectl taint nodes node-name key=value:taint-effect`  
+
+    `kubectl taint nodes node1 app=frontend:noschedule`  
+
+- None of the pods can tolerate the taint by default, so none of them can be placed on node one.  
+
+- We add a toleration to pod D, making it tolerant to the taint frontend.
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp_pod 
+  labels: 
+    name: app 
+    env: stage
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx
+  tollerations:
+    key: "app"
+    operator: "Equal"
+    value: "frontend"
+    effect: "NoSchedule"
+```
+
+
+- Now, when the scheduler tries to place pod D on node one, it can be scheduled because it is tolerant to the taint.
+
+> Taint is for Nodes and Toleration is for Pods.  
+
+### Taint effects:
+1. No schedule: Pods will not be scheduled on the node.
+
+2. Prefer no schedule: The system will try to avoid placing a pod on the node, but it's not guaranteed.
+
+3. No execute: New pods will not be scheduled on the node, and existing pods on the node may be evicted if they do not tolerate the taint.
+
+### Taints and tolerations configuration:
+- Use the kubectl taint nodes command to taint a node.
+
+- Tolerations are added to pods in the pod definition file.
+
+> taints and tolerations does not tell the pod to go to a particular node. Instead, it tells the node to only accept pods with certain tolerations. If your requirement is to restrict a pod to certain nodes, it is achieved through another concept called as node affinity.
+
+### Master nodes:
+- Master nodes in the cluster have a taint that prevents any pods from being scheduled on them by default.
+
+- To see master node taint run the below command.
+  `kubectl get node kubemaster| grep Taint`  
+
+  `>> Taints:  node-role.kubernetes.io/master:NoSchedule`
