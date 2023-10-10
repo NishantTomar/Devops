@@ -203,3 +203,44 @@ There are two ways to do this:
 
 
 2. **Node Affinity and Anti-Affinity**: Node selectors have limitations when the requirements are more complex. In such cases, you can use node affinity and anti-affinity features. These allow you to specify more advanced rules for pod placement, such as placing the pod on a large or medium node or placing the pod on any node that is not small.
+
+## Node Affinity
+
+- The primary purpose of the node affinity feature is to ensure that pods are hosted on particular nodes, such as placing a large data processing pod on node1.
+- Node selectors are a simple way to achieve this, but they don't support advanced expressions like "or" or "not".
+- Node affinity provides advanced capabilities for limiting pod placement on specific nodes, although it can be more complex to use.
+- Under the pod's specification, you have the "affinity" section, which contains the "node affinity" property.
+- The "node affinity" property has a sentence-like sub-property called "required during scheduling, ignored during execution", which defines the behavior of the scheduler with respect to node affinity and the stages in the pod's life cycle.
+- There are currently two types of node affinity available: "required during scheduling, ignored during execution" and "preferred during scheduling, ignored during execution".
+- During scheduling, if a pod's affinity rules cannot be matched to any available nodes, the "required" type will prevent the pod from being scheduled, while the "preferred" type will allow the scheduler to place the pod on any available node.
+- During execution, if a change in the environment affects node affinity (e.g., a label change on a node), the "ignored" value for the two existing types means that running pods will not be impacted by the change.
+- In the future, new types of node affinity are planned, with the main difference being their behavior during the execution phase. For example, a new option called "required during execution" could evict pods that are running on nodes that no longer meet the affinity rules.
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: with-node-affinity
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/os
+            operator: In
+            values:
+            - linux
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+          - key: size
+            operator: In
+            values:
+            - Large
+            - Medium
+  containers:
+  - name: with-node-affinity
+    image: nginx
+```
