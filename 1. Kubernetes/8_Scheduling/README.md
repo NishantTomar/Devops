@@ -259,3 +259,45 @@ spec:
 ```
 
 For more content, Please refer the official documentaion of [NodeAffinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
+
+## Combination of Taints/Tolleration and NodeAffinity
+
+- We have three nodes and three pods each in three colors: blue, red, and green.  
+
+- The ultimate aim is to place the blue pod in the blue node, the red pod in the red node, and likewise for green.  
+
+- We are sharing the same Kubernetes cluster with other teams, so there are other pods in the cluster as well as other nodes.  
+
+- We do not want any other pod to be placed on our node, neither do we want our pods to be placed on their nodes.  
+
+1. Let us first try to solve this problem using taints and tolerations.  
+
+  - Apply a taint to the nodes marking them with their colors (blue, red, and green).  
+
+  - Set a toleration on the pods to tolerate the respective colors.  
+
+  - When the pods are created, the nodes ensure they only accept the pods with the right toleration.  
+
+  - The green pod ends up on the green node, and the blue pod ends up on the blue node.  
+
+  - However, taints and tolerations do not guarantee that the pods will only prefer these nodes.  
+
+  - The red pod ends up on one of the other nodes that do not have a taint or toleration set. This is not desired.  
+
+2. Let us try to solve the same problem with node affinity.  
+
+  - Label the nodes with their respective colors (blue, red, and green).  
+
+  - Set node selectors on the pods to tie the pods to the nodes.  
+
+  - The pods end up on the right nodes.  
+
+  - However, this does not guarantee that other pods are not placed on these nodes.  
+
+  - There is a chance that one of the other pods may end up on our nodes. This is not something we desire.  
+
+3. A combination of taints, tolerations, and node affinity rules can be used together to completely dedicate nodes for specific pods.  
+
+  - Use taints and tolerations to prevent other pods from being placed on our nodes.  
+
+  - Use node affinity to prevent our pods from being placed on their nodes.  
