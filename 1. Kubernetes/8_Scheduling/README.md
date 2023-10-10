@@ -204,6 +204,8 @@ There are two ways to do this:
 
 2. **Node Affinity and Anti-Affinity**: Node selectors have limitations when the requirements are more complex. In such cases, you can use node affinity and anti-affinity features. These allow you to specify more advanced rules for pod placement, such as placing the pod on a large or medium node or placing the pod on any node that is not small.
 
+For more content, Please refer the official documentaion of [NodeSelectors](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector)
+
 ## Node Affinity
 
 - The primary purpose of the node affinity feature is to ensure that pods are hosted on particular nodes, such as placing a large data processing pod on node1.  
