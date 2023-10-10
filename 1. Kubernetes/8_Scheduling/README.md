@@ -272,29 +272,29 @@ For more content, Please refer the official documentaion of [NodeAffinity](https
 
 1. Let us first try to solve this problem using taints and tolerations.  
 
-  1. Apply a taint to the nodes marking them with their colors (blue, red, and green).  
+    1. Apply a taint to the nodes marking them with their colors (blue, red, and green).  
 
-  2. Set a toleration on the pods to tolerate the respective colors.  
+    2. Set a toleration on the pods to tolerate the respective colors.  
 
-  3. When the pods are created, the nodes ensure they only accept the pods with the right toleration.  
+    3. When the pods are created, the nodes ensure they only accept the pods with the right toleration.  
 
-  4. The green pod ends up on the green node, and the blue pod ends up on the blue node.  
+    4. The green pod ends up on the green node, and the blue pod ends up on the blue node.  
 
-  5. However, taints and tolerations do not guarantee that the pods will only prefer these nodes.  
+    5. However, taints and tolerations do not guarantee that the pods will only prefer these nodes.  
 
-  6. The red pod ends up on one of the other nodes that do not have a taint or toleration set. This is not desired.  
+    6. The red pod ends up on one of the other nodes that do not have a taint or toleration set. This is not desired.  
 
 2. Let us try to solve the same problem with node affinity.  
 
-  1. Label the nodes with their respective colors (blue, red, and green).  
+    1. Label the nodes with their respective colors (blue, red, and green).  
 
-  2. Set node selectors on the pods to tie the pods to the nodes.  
+    2. Set node selectors on the pods to tie the pods to the nodes.  
 
-  3. The pods end up on the right nodes.  
+    3. The pods end up on the right nodes.  
 
-  4. However, this does not guarantee that other pods are not placed on these nodes.  
+    4. However, this does not guarantee that other pods are not placed on these nodes.  
 
-  5. There is a chance that one of the other pods may end up on our nodes. This is not something we desire.  
+    5. There is a chance that one of the other pods may end up on our nodes. This is not something we desire.  
 
 3. A combination of taints, tolerations, and node affinity rules can be used together to completely dedicate nodes for specific pods.  
 
