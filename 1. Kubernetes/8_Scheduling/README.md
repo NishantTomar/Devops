@@ -432,6 +432,10 @@ spec:
       type: Container
 ```
 
+How to get the yaml file of a current running pod.  
+  
+  `kubectl get pod <podname> -o yaml > my-new-pod.yaml`
+
 ### Resource Quotas
 
 - Resource quotas can be created at a namespace level to limit the CPU and memory consumption of all pods in a cluster.  
