@@ -301,3 +301,159 @@ For more content, Please refer the official documentaion of [NodeAffinity](https
     1. Use taints and tolerations to prevent other pods from being placed on our nodes.  
 
     2. Use node affinity to prevent our pods from being placed on their nodes.  
+
+
+## Resource Requirements and Limits
+
+- Each node has a set of CPU and memory resources available.  
+
+- Every pod requires a set of resources to run.  
+
+- The Kubernetes scheduler decides which node a pod goes to based on resource availability.  
+
+- The scheduler schedules a new pod on a node with sufficient resources.  
+
+- If there are no sufficient resources available on any of the nodes, the scheduler holds back scheduling the pod, and the pod remains in a pending state.  
+
+
+### Resource Requirements for Pods
+
+- You can specify the amount of CPU and memory required for a pod when creating one.  
+
+- This is known as the resource request for a container, which is the minimum amount of CPU or memory requested by the container.  
+
+- The scheduler uses these numbers to identify a node with sufficient resources when placing the pod.  
+
+- You can set limits for the resource usage on pods to prevent them from consuming more resources than necessary.  
+
+### CPU and Memory Units
+
+- One count of CPU is equivalent to one vCPU in AWS, one core in GCP or Azure, or one hyperthread on other systems.  
+
+- You can specify CPU values as low as 0.1, which can also be expressed as 100m (milli).  
+
+- Memory values can be specified in mebibytes (Mi), gigabytes (G), or gibibytes (Gi).
+
+### Resource Limits
+
+- By default, a container has no limit to the resources it can consume on a node.  
+
+- You can set limits for CPU and memory usage on containers using the limits section in your pod-definition file.  
+
+- If a pod exceeds its specified limit for memory, it will be terminated with an OOM (out of memory) error.
+
+#### [resource-limit-nginx-pod-definition.yaml](resource-limit-nginx-pod-definition.yaml)
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp
+  labels:
+    name: myapp
+spec:
+  containers:
+  - name: myapp
+    image: nginx
+    resources:
+      requests:
+        memory: "52Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 80
+
+```
+
+
+### Default Configuration
+
+- By default, Kubernetes does not have a CPU or memory request or limit set for pods.  
+
+- This means that any pod can consume as much resources as required on any node, potentially suffocating other pods or processes.  
+
+### CPU Requests and Limits
+
+- Without a resource or limit set, one pod can consume all the CPU resources on a node and prevent other pods from getting the required resources.  
+
+- If only limits are specified, Kubernetes automatically sets requests to the same as limits.  
+
+- If both requests and limits are set, each pod gets a guaranteed number of CPU requests and can go up to the defined limits, but not more.  
+
+- The ideal scenario is to set requests but no limits, allowing pods to use available CPU cycles as long as they are not needed by other pods.
+
+### Limit Ranges
+
+- Limit ranges can be used to define default values for containers in pods that are created without a request or limit specified in the pod-definition files.  
+
+- Limit ranges are applicable at the namespace level and are defined as an object with the apiVersion set to v1, kind set to LimitRange, and a name specified.  
+
+- The default limit and default request can be set for CPU and memory, along with a maximum and minimum limit for CPU and memory.  
+
+- These limits are enforced when a pod is created, and if a limit range is created or updated, it only affects newer pods that are created after the limit range is created or updated.  
+
+#### [cpu-limit.yaml](cpu-limit.yaml)
+```
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: cpu-limit-range
+spec:
+  limits:
+    - default:
+        cpu: "500m"
+      defaultRequest: 
+        cpu: "500m" 
+      max:
+        cpu: "1"
+      min:
+        cpu: "500m"
+      type: Container
+```
+#### [memory-limit.yaml](memory-limit.yaml)
+
+```
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: mem-limit-range
+spec:
+  limits:
+    - default:
+        memory: 1Gi
+      defaultRequest: 
+        memory: 1Gi 
+      max:
+        memory: 1Gi
+      min:
+        memory: 500Mi
+      type: Container
+```
+
+### Resource Quotas
+
+- Resource quotas can be created at a namespace level to limit the CPU and memory consumption of all pods in a cluster.  
+
+- A resource quota is a namespace level object that sets hard limits for requests and limits.  
+
+- In the example, a resource quota is created to limit the total requested CPU to 4 and memory to 4 gibibytes in the current namespace.  
+
+- The resource quota also defines a maximum limit of 10 CPU and 10 gibibytes of memory to be consumed by all the pods together.  
+
+#### [resource-quotas.yaml](resource-quotas.yaml)
+
+```
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: my-resource-quota
+spec:
+  hard:
+    requests.cpu: 4
+    requests.memory: 4Gi
+    limits.cpu: 8
+    limits.memory: 10Gi
+    
+```
