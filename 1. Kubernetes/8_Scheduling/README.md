@@ -440,7 +440,7 @@ spec:
 
 - In the example, a resource quota is created to limit the total requested CPU to 4 and memory to 4 gibibytes in the current namespace.  
 
-- The resource quota also defines a maximum limit of 10 CPU and 10 gibibytes of memory to be consumed by all the pods together.  
+- The resource quota also defines a maximum limit of 8 CPU and 10 gibibytes of memory to be consumed by all the pods together.  
 
 #### [resource-quotas.yaml](resource-quotas.yaml)
 
