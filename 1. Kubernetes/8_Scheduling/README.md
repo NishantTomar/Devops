@@ -461,3 +461,70 @@ spec:
     limits.memory: 10Gi
     
 ```
+
+## Daemon Sets
+
+- **Deploying Pods with ReplicaSets and Deployments:**
+  - We have deployed various pods on different nodes in our cluster using ReplicaSets and deployments.
+  - These tools ensure that multiple copies of our applications are available across different worker nodes.
+
+- **Introduction to DaemonSets:**
+  - DaemonSets are similar to ReplicaSets but have a different deployment strategy.  
+
+  - They help deploy multiple instances of pods, running one copy of the pod on each node in the cluster.
+  
+  - When a new node is added, a replica of the pod is automatically added to that node.
+  
+  - When a node is removed, the pod is automatically removed.
+  
+  - The DaemonSet ensures that one copy of the pod is always present on all nodes in the cluster.
+
+- **Use Cases of DaemonSets:**
+  
+  - Deploying a monitoring agent or log collector on each node in the cluster for better cluster monitoring.
+  
+  - Deploying essential components like kube-proxy on every node in the cluster.
+  
+  - Networking solutions like Vivenet, which require an agent to be deployed on each node in the cluster.
+
+- **Creating a DaemonSet:**
+  
+  - Creating a DaemonSet is similar to creating a ReplicaSet.
+  
+  - The DaemonSet definition file has a similar structure, with the kind set to DaemonSet instead of ReplicaSet.
+  
+  - The DaemonSet has a selector and a pod specification template, just like the ReplicaSet.
+  
+  - Ensure that the labels in the selector match the ones in the pod template.
+  
+  - Use the `kubectl create daemonset` command to create the DaemonSet.
+  
+  - Use the `kubectl get daemonset` command to view the created DaemonSet.
+  
+  - Use the `kubectl describe daemonset` command to view more details about the DaemonSet.
+
+    #### [daemonset-definition.yaml](daemonset-definition.yaml)
+    ```
+    apiVersion: apps/v1
+    kind: DaemonSet
+    metadata:
+      name: my-monitoring-agent
+    spec:
+      selector:
+        matchLabels:
+          app: my-monitoring-agent
+      template:
+        metadata:
+          labels:
+            app: my-monitoring-agent
+        spec:
+          containers:
+          - name: monitoring-agent
+            image: checkmk
+    ```
+
+
+- **How Does a DaemonSet Work?**
+  - In earlier versions of Kubernetes, you could set the node name property on the pod to schedule it on a specific node.
+  - However, from version 1.12 onwards, DaemonSets use the default scheduler and node affinity rules to schedule pods on nodes.
+
