@@ -561,3 +561,20 @@ spec:
 2. Where is the kubelet config.yaml file placed in ubuntu by default.
 
     `/var/lib/kubelet/config.yaml`
+
+## Schedulers
+
+
+- The default scheduler in Kubernetes distributes pods evenly across nodes and considers various conditions like taints, tolerations, and node affinity. However, if you have a specific application that requires custom scheduling, you can write your own scheduler program, package it, and deploy it as the default scheduler or as an additional scheduler in the Kubernetes cluster.
+
+- Your Kubernetes cluster can have multiple schedulers at a time, and when creating a pod or a deployment, you can instruct Kubernetes to use a specific scheduler. Each scheduler must have a different name to be identified as a separate scheduler.
+
+- The default scheduler is named "default scheduler," and its name is configured in a kube-scheduler configuration file. Other schedulers can have separate configuration files with their own names.
+
+- To deploy an additional scheduler, you can use the same kube-scheduler binary as the default scheduler and point it to a custom configuration file. Alternatively, you can deploy the scheduler as a pod or a deployment, specifying the custom configuration file and the scheduler name.
+
+- When running multiple copies of the same scheduler on different master nodes for high availability, you can use the leader elect option to choose a leader for scheduling activities.
+
+- To use a custom scheduler, add a new field called "scheduler name" to your pod or deployment definition file and specify the name of the custom scheduler. This way, the right scheduler will be picked up during the scheduling process.
+
+Read more on official Kubernetes documentation about [configuring multiple schedulers](https://kubernetes.io/docs/tasks/extend-kubernetes/configure-multiple-schedulers/)
