@@ -551,3 +551,13 @@ spec:
 - The kubelet can create both static pods and pods from the API server at the same time, as it can take in requests for creating pods from different inputs.
 
 - If the kubelet creates a static pod as part of a cluster, it also creates a mirror object in the kube API server, which you can view with the kube control get pods command on the master node.
+
+1. How to view static pods of all namespaces.  
+
+    `kubectl get pods -A`
+
+    the pod names with the suffix of node names are the static pods
+
+2. Where is the kubelet config.yaml file placed in ubuntu by default.
+
+    `/var/lib/kubelet/config.yaml`
