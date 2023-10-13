@@ -528,3 +528,26 @@ spec:
   - In earlier versions of Kubernetes, you could set the node name property on the pod to schedule it on a specific node.
   - However, from version 1.12 onwards, DaemonSets use the default scheduler and node affinity rules to schedule pods on nodes.
 
+## Static Pods
+
+- The kubelet can manage a node independently, even without a Kubernetes cluster.
+
+- To create pods, you need a pod definition file, but without a kube API server, you can configure the kubelet to read the pod definition files from a designated directory on the server.
+    Example: `/etc/kubernetes/mainifest`
+
+- The kubelet periodically checks this directory for files, reads them, and creates pods on the host. It can also ensure that the pod stays alive by attempting to restart it if the application crashes.
+
+- If you make changes to any of the files within this directory, the kubelet recreates the pod for those changes to take effect. If you remove a file from this directory, the pod is deleted automatically.
+
+- These pods created by the kubelet on its own, without the intervention from the API server or the rest of the Kubernetes cluster components, are known as static pods.
+
+- You can only create pods this way, not replica sets, deployments, or services, as those require other cluster plane components.
+
+- The location of the designated directory can be passed to the kubelet as an option while running the service. Add this option in **kubelet.service** file `--pod-mainifest-path=/etc/kubernetes/mainifest`. Or you can provide a pod to another config file using the config option and define the directory path as a static pod path in that file. like add this option to **kubelet.service** file `--config=kubeconfig.yaml`. And create a kubeconfig.yaml file with `staticPodPath: /etc/kubernetes/mainifest`
+  
+
+- Once the static pods are created, you can view them by running the Docker ps command, as we don't have the rest of the Kubernetes cluster yet to use the kube control command.
+
+- The kubelet can create both static pods and pods from the API server at the same time, as it can take in requests for creating pods from different inputs.
+
+- If the kubelet creates a static pod as part of a cluster, it also creates a mirror object in the kube API server, which you can view with the kube control get pods command on the master node.
