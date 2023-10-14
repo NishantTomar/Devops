@@ -564,7 +564,6 @@ spec:
 
 ## Schedulers
 
-
 - The default scheduler in Kubernetes distributes pods evenly across nodes and considers various conditions like taints, tolerations, and node affinity. However, if you have a specific application that requires custom scheduling, you can write your own scheduler program, package it, and deploy it as the default scheduler or as an additional scheduler in the Kubernetes cluster.
 
 - Your Kubernetes cluster can have multiple schedulers at a time, and when creating a pod or a deployment, you can instruct Kubernetes to use a specific scheduler. Each scheduler must have a different name to be identified as a separate scheduler.
@@ -578,3 +577,18 @@ spec:
 - To use a custom scheduler, add a new field called "scheduler name" to your pod or deployment definition file and specify the name of the custom scheduler. This way, the right scheduler will be picked up during the scheduling process.
 
 Read more on official Kubernetes documentation about [configuring multiple schedulers](https://kubernetes.io/docs/tasks/extend-kubernetes/configure-multiple-schedulers/)
+
+#### Configuring Scheduler profiles
+
+The Kubernetes scheduler is responsible for matching Pods to Nodes so that Kubelet can run them. Here is a simple example of how the Kubernetes scheduler works:
+
+- A Pod definition file is created and the Pod is waiting to be scheduled on one of the available Nodes in the Kubernetes cluster.
+- The Pod has a resource requirement of 10 CPU, so it can only be scheduled on a Node that has 10 CPU remaining.
+- The Pods are sorted based on the priority defined on the Pods, and Pods with higher priority get to the beginning of the queue to be scheduled first.
+- The Nodes that cannot run the Pod are filtered out.
+- Nodes are scored with different weights based on the free space that it will have after reserving the CPU required for that Pod.
+- The Node with the highest score is picked up, and the Pod is finally bound to that Node.
+
+All of these operations are achieved with certain plugins. To set a priority, you must first create a priority class. The scheduling framework is a pluggable architecture for the Kubernetes scheduler that adds a new set of "plugin" APIs to the existing scheduler. You can customize the behavior of the kube-scheduler by writing a configuration file and passing its path as a command-line argument. You can even run multiple schedulers simultaneously alongside the default scheduler and instruct Kubernetes what scheduler to use for each of your Pods.
+
+
