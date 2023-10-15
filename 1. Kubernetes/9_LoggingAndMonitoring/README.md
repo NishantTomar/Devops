@@ -24,8 +24,10 @@
 
 - If I run the Docker container in the background using the -d option, I won't see the logs. To view the logs, I can use the docker logs command followed by the container ID. The -f option helps me see the live log trail.
 
-- In Kubernetes, I create a pod with the same Docker image using the pod definition file. Once the pod is running, I can view the logs using the kubectl logs command with the pod name. Again, the -f option can be used to stream the live logs.
+- In Kubernetes, I create a pod with the same Docker image using the pod definition file. Once the pod is running, I can view the logs using the kubectl logs command with the pod name. Again, the -f option can be used to stream the live logs.  
+
     `kubectl logs -f podname`
 
-- The logs are specific to the container running inside the pod. Kubernetes pods can have multiple Docker containers in them. If I modify my pod definition file to include an additional container called image-processor, I need to specify the name of the container explicitly in the kubectl logs command to view its logs.
+- The logs are specific to the container running inside the pod. Kubernetes pods can have multiple Docker containers in them. If I modify my pod definition file to include an additional container called image-processor, I need to specify the name of the container explicitly in the kubectl logs command to view its logs.  
+
     `kubectl logs -f podname containername`
