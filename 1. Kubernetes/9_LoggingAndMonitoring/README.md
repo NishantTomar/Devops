@@ -29,5 +29,3 @@
 
 - The logs are specific to the container running inside the pod. Kubernetes pods can have multiple Docker containers in them. If I modify my pod definition file to include an additional container called image-processor, I need to specify the name of the container explicitly in the kubectl logs command to view its logs.
     `kubectl logs podname containername`
-    
-- In this case, I will specify the name of the first container event-simulator, and that will print the relevant log messages. This is the basic logging functionality implemented within Kubernetes, and it's all that an application developer needs to know to get started with Kubernetes.
