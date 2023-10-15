@@ -590,5 +590,33 @@ The Kubernetes scheduler is responsible for matching Pods to Nodes so that Kubel
 - The Node with the highest score is picked up, and the Pod is finally bound to that Node.
 
 All of these operations are achieved with certain plugins. To set a priority, you must first create a priority class. The scheduling framework is a pluggable architecture for the Kubernetes scheduler that adds a new set of "plugin" APIs to the existing scheduler. You can customize the behavior of the kube-scheduler by writing a configuration file and passing its path as a command-line argument. You can even run multiple schedulers simultaneously alongside the default scheduler and instruct Kubernetes what scheduler to use for each of your Pods.
+Here's a more readable and easy-to-understand version of the provided paragraph:
 
+- **Scheduling Queue:**
+  - The priority sort plugin is responsible for sorting pods in the scheduling queue based on their priority.
+  - Pods with a higher priority class are given priority over other pods during scheduling.
 
+- **Filtering Stage:**
+  - The node resources fit plugin identifies nodes that have sufficient resources for the pods and filters out nodes that don't.
+  - Other plugins in this stage include the node name plugin, which filters out nodes that don't match the pod's specified node name, and the node unschedulable plugin, which filters out nodes with the unschedulable flag set to true.
+
+- **Scoring Phase:**
+  - The node resources fit plugin assigns a score to each node based on the available resources and the allocated pod.
+  - The image locality plugin assigns a high score to nodes that already have the container image used by the pods.
+
+- **Binding Phase:**
+  - The default binder plugin handles the binding mechanism during the binding phase.
+
+- **Extension Points:**
+  - Kubernetes' extensible nature allows for customization of plugin placement and the ability to write and plug in custom plugins.
+  - Each stage has an extension point to which a plugin can be plugged in.
+
+- **Multiple Scheduler Profiles:**
+  - With the 1.18 release of Kubernetes, multiple profiles can be configured within a single scheduler, allowing for different plugin configurations.
+  - Each profile acts as a separate scheduler, but they are all run in the same binary, avoiding race conditions and reducing maintenance effort.
+
+- **Configuring Scheduler Profiles:**
+  - Each scheduler profile can be configured with different plugins by enabling or disabling them under the plugin section in the configuration file.
+
+- **Default Plugins and Extension Points:**
+  - Kubernetes comes with default plugins associated with various extension points, some of which span multiple extension points, while others are specific to a particular point.
