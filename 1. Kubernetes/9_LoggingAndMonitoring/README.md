@@ -17,3 +17,17 @@
 - To deploy the Metrics Server, use the appropriate command for your environment (e.g., `minikube addons enable metrics-server` for minikube or clone the Metrics Server deployment files from the GitHub repository and deploy them using `kubectl create` for other environments).
 
 - Once the Metrics Server is deployed and has collected and processed data, you can view cluster performance by running the command `kubectl top node` to see CPU and memory consumption for each node and `kubectl top pod` to view performance metrics for pods in Kubernetes.
+
+# Logging
+
+- I have a Docker container called event-simulator that generates random events, simulating a web server. The events are streamed to the standard output by the application.
+
+- If I run the Docker container in the background using the -d option, I won't see the logs. To view the logs, I can use the docker logs command followed by the container ID. The -f option helps me see the live log trail.
+
+- In Kubernetes, I create a pod with the same Docker image using the pod definition file. Once the pod is running, I can view the logs using the kubectl logs command with the pod name. Again, the -f option can be used to stream the live logs.
+    `kubectl logs podname`
+
+- The logs are specific to the container running inside the pod. Kubernetes pods can have multiple Docker containers in them. If I modify my pod definition file to include an additional container called image-processor, I need to specify the name of the container explicitly in the kubectl logs command to view its logs.
+    `kubectl logs podname containername`
+    
+- In this case, I will specify the name of the first container event-simulator, and that will print the relevant log messages. This is the basic logging functionality implemented within Kubernetes, and it's all that an application developer needs to know to get started with Kubernetes.
