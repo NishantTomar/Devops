@@ -93,7 +93,8 @@ In most cases, the types of data defined using environment variables in Kubernet
         ```
 - The `envFrom` property is a list, and each item in the list corresponds to a ConfigMap item.
 - You can view ConfigMaps using the `kubectl get configmaps` command.
-- There are other ways to inject configuration data into pods, such as as a single environment variable or as files in a volume.
+- There are other ways to inject configuration data into pods, such as as a single environment variable or as files in a volume.  
+
         **Single env variable**
         ```
         env:
@@ -103,6 +104,7 @@ In most cases, the types of data defined using environment variables in Kubernet
                 name: app-config
                 key: App_COLOR
         ```
+
         **As Files in volume**
         ```
         volume:
