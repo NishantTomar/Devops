@@ -43,7 +43,7 @@ env:
 env:
 - name: APP_COLOR
     valueFrom:
-    configMapKeyRef: 
+      configMapKeyRef: 
 ```
 
 **ConfigSecrets**
@@ -51,7 +51,7 @@ env:
 env:
 - name: APP_COLOR
     valueFrom:
-    SecretKeyRef: 
+      secretKeyRef: 
 
 ```
 
