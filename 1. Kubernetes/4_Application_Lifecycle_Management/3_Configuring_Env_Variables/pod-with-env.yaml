@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp_pod 
+  labels: 
+    name: app 
+    env: stage
+spec:
+  containers:
+    - name: my-webapp-container
+      image: my-webapp
+  env:
+    key: APP_COLOR
+    value: pink
