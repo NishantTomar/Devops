@@ -57,3 +57,56 @@ env:
 
 In most cases, the types of data defined using environment variables in Kubernetes can also be configured using other methods. However, environment variables play an important role in Kubernetes, and you can use them not only to provide basic information about the operating system to your application but also as the main.
 
+## ConfigMaps
+
+- ConfigMaps are used to pass configuration data in the form of key-value pairs in Kubernetes.
+- They allow you to manage environment-specific configuration data centrally, rather than within individual pod definition files.
+- There are two phases involved in configuring ConfigMaps: creating the ConfigMap and injecting it into the pod.
+- You can create a ConfigMap in two ways: imperatively without using a ConfigMap definition file, or declaratively by using a ConfigMap definition file.
+- To create a ConfigMap imperatively, you can use the `kubectl create configmap` command and specify the key-value pairs in the command line.
+        ```
+        kubectl create configmap \
+        app-config --from-literal=APP_COLOR=green
+        
+        #Using a file
+
+        kubectl create configmap \
+        app-config --from-file=app_config.properties
+        ```
+- To create a ConfigMap declaratively, you can create a definition file with the `apiVersion`, `kind`, `metadata`, and `data` fields.
+        ```
+        apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: myapp-config
+        data:
+          APP_COLOR: green
+          APP_MODE: auto
+        ```
+
+- Once you have created a ConfigMap, you can inject it into a pod by adding a new property to the container called `envFrom`.
+
+        ```
+        envFrom:
+        - configMapRef:
+            name: myapp-config
+        ```
+- The `envFrom` property is a list, and each item in the list corresponds to a ConfigMap item.
+- You can view ConfigMaps using the `kubectl get configmaps` command.
+- There are other ways to inject configuration data into pods, such as as a single environment variable or as files in a volume.
+        **Single env variable**
+        ```
+        env:
+          - name: APP_COLOR
+            valuesFrom:
+              configMapKeyRef:
+                name: app-config
+                key: App_COLOR
+        ```
+        **As Files in volume**
+        ```
+        volume:
+        - name: config-map-volume
+          configMap:
+            name: app-config  
+        ```
