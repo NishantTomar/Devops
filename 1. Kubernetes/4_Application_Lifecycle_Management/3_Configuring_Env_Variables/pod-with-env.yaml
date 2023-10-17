@@ -10,5 +10,5 @@ spec:
     - name: my-webapp-container
       image: my-webapp
   env:
-    key: APP_COLOR
-    value: pink
+    - key: APP_COLOR
+      value: pink
