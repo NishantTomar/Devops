@@ -112,3 +112,55 @@ In most cases, the types of data defined using environment variables in Kubernet
           configMap:
             name: app-config  
         ```
+## Secrets
+
+1. Create the secret: Secrets are used to store sensitive information like passwords or keys. They're similar to ConfigMaps except that they're stored in an encoded format. There are two ways of creating a secret:
+   - Imperative way: This method does not use a secret definition file. You can directly specify the key value pairs in the command line itself. To create a secret of the given values, run the `kubectl create secret generic` command. The command is followed by the secret name and the option `--from-literal`. The `--from-literal` option is used to specify the key value pairs in the command itself. For example, to create a secret by the name `app-secret` with a key value pair `DB_host=MySQL`, run the command 
+   `kubectl create secret generic app-secret --from-literal=DB_host=MySQL`.  
+   
+   - Declarative way: This method uses a secret definition file. Create a definition file with API version, kind, metadata, and data. The API version is V1, kind is secret. Under metadata, specify the name of the secret. Under data, add the secret data in a key value format. However, while creating a secret with a declarative approach, you must specify the secret values in an encoded format. To encode the data, run the command `echo -n <text> | base64`. Replace `<text>` with the text you're trying to convert. For example, to encode `MySQL`, run the command `echo -n MySQL | base64`. Then, specify the encoded data in the definition file. To create the secret, run the command `kubectl apply -f <filename>`. Replace `<filename>` with the name of the definition file.
+
+2. Inject the secret into a pod: To inject an environment variable, add a new property to the container called `envFrom`. The `envFrom` property is a list, so you can pass as many environment variables as required. Each item in the list corresponds to a secret item. Specify the name of the secret you created earlier. Creating the pod definition file now makes the data in the secret available as environment variables for the application.
+
+```
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: myapp-secret
+        data:
+          MYSQL_USER: root
+          MYSQL_PASSWD: root@123
+```
+
+        ```
+        envFrom:
+        - secretRef:
+            name: myapp-secret
+        ```
+
+
+3. Other ways to inject secrets into pods:
+   - Inject as single environment variables
+        ```
+        env:
+          - name: MYSQL_PASSWD
+            valuesFrom:
+              secretKeyRef:
+                name: myapp-secret
+                key: MYSQL_PASSWD
+        ```
+
+   - Inject the whole secret as files in a volume. If you mount the secret as a volume in the pod, each attribute in the secret is created as a file with the value of the secret as its content.
+        ```
+        volume:
+        - name: secret-volume
+          secret:
+            secretName: myapp-secret  
+        ```
+
+
+4. Things to keep in mind when working with secrets:
+   - Secrets are not encrypted, they're only encoded. Anyone can look up the file that you created for secrets or get the secret object and then decode it using the methods discussed before to see the confidential data. So, do not check in your secret definition files along with your code when you push to GitHub or something.
+   - Secrets are not encrypted in etcd. Consider enabling encryption at rest.
+   - Anyone able to create pods or deployments in the same namespace can access the secrets as well. Consider configuring role-based access control to restrict access.
+   - Consider third-party secret providers, such as AWS provider or Azure provider or GCP provider or the vault provider. This way, the secrets are stored not in etcd but in an external secret provider, and those providers take care of most of the security.
