@@ -120,6 +120,7 @@ In most cases, the types of data defined using environment variables in Kubernet
 ## Secrets
 
 1. Create the secret: Secrets are used to store sensitive information like passwords or keys. They're similar to ConfigMaps except that they're stored in an encoded format. There are two ways of creating a secret:
+
    - Imperative way: This method does not use a secret definition file. You can directly specify the key value pairs in the command line itself. To create a secret of the given values, run the `kubectl create secret generic` command. The command is followed by the secret name and the option `--from-literal`. The `--from-literal` option is used to specify the key value pairs in the command itself. For example, to create a secret by the name `app-secret` with a key value pair `DB_host=MySQL`, run the command 
    `kubectl create secret generic app-secret --from-literal=DB_host=MySQL`.  
    
@@ -127,6 +128,7 @@ In most cases, the types of data defined using environment variables in Kubernet
 
 2. Inject the secret into a pod: To inject an environment variable, add a new property to the container called `envFrom`. The `envFrom` property is a list, so you can pass as many environment variables as required. Each item in the list corresponds to a secret item. Specify the name of the secret you created earlier. Creating the pod definition file now makes the data in the secret available as environment variables for the application.
 
+#### secret-defination.yaml
 ```
   apiVersion: v1
   kind: Secret
@@ -137,11 +139,11 @@ In most cases, the types of data defined using environment variables in Kubernet
     MYSQL_PASSWD: root@123
 ```
 
-  ```
+```
   envFrom:
   - secretRef:
       name: myapp-secret
-  ```
+```
 
 
 3. Other ways to inject secrets into pods:
