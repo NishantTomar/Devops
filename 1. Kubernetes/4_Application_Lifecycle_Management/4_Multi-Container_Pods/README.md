@@ -68,6 +68,6 @@ spec:
     command: ['sh', '-c', 'until nslookup mydb; do echo waiting for mydb; sleep 2; done;']
 ```
 
-Read more about initContainers here. And try out the upcoming practice test.
+Read more about initContainers here.
 
 https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
