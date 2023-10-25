@@ -71,3 +71,8 @@ spec:
 Read more about initContainers here.
 
 https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
+
+See the doc
+
+
+
