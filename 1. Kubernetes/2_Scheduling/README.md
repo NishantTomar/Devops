@@ -169,7 +169,7 @@ spec:
 
 - To see master node taint run the below command.  
 
-  `kubectl get node kubemaster| grep Taint`  
+  `kubectl describe node kubemaster| grep Taint`  
 
   `>> Taints:  node-role.kubernetes.io/master:NoSchedule`  
 
