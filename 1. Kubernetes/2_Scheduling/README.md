@@ -132,7 +132,7 @@ spec:
   containers:
     - name: nginx-container
       image: nginx
-  tollerations:
+  tolerations:
     - key: "app"  #we can either use "" or without that also it will work.
       operator: "Equal"
       value: "frontend"
